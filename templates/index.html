@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
+    ></script>
+    <script src="../static/index.js"></script>
+    <link rel="Stylesheet" href="../static/style.css" />
+    <title>Flack</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/logout">Log Out</a>
+    </nav>
+    <div id="channels" style="width: 20%; float: left;">
+      <input id="new" type="text" size="10" />
+      <button id="create">+</button>
+      <ul id="channels"></ul>
+    </div>
+    <div
+      id="view"
+      style="width: 80%; height: 100%; position: relative; float: left;"
+    >
+      <ul id="messages"></ul>
+      <div id="input" style="position: absolute; bottom: 0;">
+        <input id="msg" type="text" />
+        <button id="send">Send</button>
+      </div>
+    </div>
+  </body>
+</html>
