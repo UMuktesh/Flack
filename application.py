@@ -14,7 +14,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-messages = {"default": [{'msg': "message", "time": "11:48", "username": "Muktesh", "user_id": "user_id"}], "default1": [{'msg': "message1", "time": "11:48", "username": "Muktesh", "user_id": "user_id"}]}
+messages = {"Welcome": []}
 users = []
 
 @app.route("/username", methods=["GET", "POST"])
@@ -24,7 +24,7 @@ def username():
         username = request.form.get("username")
         if not username:
             return render_template("apology.html", error="must provide username", code=403)
-        if username in users:
+        if username in [user[0] for user in users]:
             return render_template("apology.html", error="username in use", code=403)
         user_id = str(uuid.uuid4())
         users.append((username, user_id))
@@ -32,7 +32,7 @@ def username():
         session["username"] = username
         return redirect("/")
     else:
-        return render_template("login.html", logout=0)
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -54,12 +54,13 @@ def connection():
 @socketio.on("msg sent")
 def messenger(msg):
     message = {'msg': msg["message"], "time": msg["time"], "username": session["username"], "user_id": session["user_id"]}
-    messages[channel].append(message)
-    emit("msg", message, broadcast=True)
+    messages[msg["channel"]].append(message)
+    emit("msg", [message, msg["channel"]], broadcast=True)
 
-@socketio.on("new channel")
+@socketio.on('new channel')
 def channeler(name):
-    return
+    messages[name] = []
+    emit("channel created", name, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app)

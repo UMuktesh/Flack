@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flask Username</title>
     <script>
-      if ({{ logout }} === 0) {
-          localStorage.removeItem('user_id')
-      }
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('channel');
     </script>
   </head>
   <body>

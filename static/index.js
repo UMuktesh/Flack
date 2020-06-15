@@ -45,30 +45,33 @@ document.addEventListener('DOMContentLoaded', () => {
           element['time'];
         ulm.appendChild(li);
       });
+      channelsHandler();
     });
 
-    const buttons = Array.from(document.getElementsByClassName('cname'));
-    Array.from(buttons).forEach((cbutton) => {
-      cbutton.onclick = () => {
-        channel = cbutton.dataset.channel;
-        alert(channel);
-        const ul = document.getElementById('messages');
-        ul.innerHTML = '';
-        messages[channel].forEach((element) => {
-          const li = document.createElement('li');
-          if (element['user_id'] === localStorage.getItem('user_id')) {
-            li.setAttribute('class', 'my-message');
-          }
-          li.innerHTML =
-            element['msg'] +
-            '---' +
-            element['username'] +
-            '---' +
-            element['time'];
-          ul.appendChild(li);
-        });
-      };
-    });
+    function channelsHandler() {
+      const buttons = Array.from(document.getElementsByClassName('cname'));
+      Array.from(buttons).forEach((cbutton) => {
+        cbutton.onclick = () => {
+          channel = cbutton.dataset.channel;
+          localStorage.setItem('channel', channel);
+          const ul = document.getElementById('messages');
+          ul.innerHTML = '';
+          messages[channel].forEach((element) => {
+            const li = document.createElement('li');
+            if (element['user_id'] === localStorage.getItem('user_id')) {
+              li.setAttribute('class', 'my-message');
+            }
+            li.innerHTML =
+              element['msg'] +
+              '---' +
+              element['username'] +
+              '---' +
+              element['time'];
+            ul.appendChild(li);
+          });
+        };
+      });
+    }
 
     document.getElementById('send').onclick = () => {
       document.getElementById('send').disabled = true;
@@ -82,18 +85,44 @@ document.addEventListener('DOMContentLoaded', () => {
         ('0' + day.getHours()).slice(-2) +
         ':' +
         ('0' + day.getMinutes()).slice(-2);
-      socket.emit('msg sent', { message: message, time: time });
+      socket.emit('msg sent', {
+        message: message,
+        time: time,
+        channel: channel,
+      });
     };
 
-    socket.on('msg', (message) => {
+    socket.on('msg', (params) => {
+      const message = params[0];
       const ul = document.getElementById('messages');
       const li = document.createElement('li');
-      if (message['user_id'] === localStorage.getItem('user_id')) {
-        li.setAttribute('class', 'my-message');
+      messages[params[1]].push(message);
+      if (params[1] === channel) {
+        if (message['user_id'] === localStorage.getItem('user_id')) {
+          li.setAttribute('class', 'my-message');
+        }
+        li.innerHTML =
+          message['msg'] +
+          '---' +
+          message['username'] +
+          '---' +
+          message['time'];
+        ul.appendChild(li);
       }
+    });
+
+    socket.on('channel created', (name) => {
+      messages[name] = [];
+      const ul = document.getElementById('channels');
+      const li = document.createElement('li');
       li.innerHTML =
-        message['msg'] + '---' + message['username'] + '---' + message['time'];
+        '<button class="cname" data-channel="' +
+        name +
+        '">' +
+        name +
+        '</button>';
       ul.appendChild(li);
+      channelsHandler();
     });
 
     document.getElementById('send').disabled = true;
@@ -115,13 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('create').onclick = () => {
+      document.getElementById('channel-error').style.display = 'none';
       document.getElementById('create').disabled = true;
-      if (document.getElementById('new').value === '') {
+      let name = document.getElementById('new').value;
+      Array.from(Object.keys(messages)).forEach((n) => {
+        if (name === n) {
+          document.getElementById('channel-error').style.display = 'block';
+          document.getElementById('new').value = '';
+          name = '';
+        }
+      });
+      if (name === '') {
         return false;
       }
-      const channel = document.getElementById('new').value;
       document.getElementById('new').value = '';
-      socket.emit('new channel', channel);
+      socket.emit('new channel', name);
     };
   });
 });
