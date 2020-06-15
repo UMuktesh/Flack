@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const buttons = Array.from(document.getElementsByClassName('cname'));
-    console.log(' o ', buttons);
     Array.from(buttons).forEach((cbutton) => {
       cbutton.onclick = () => {
         channel = cbutton.dataset.channel;
