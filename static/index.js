@@ -6,14 +6,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // When connected, configure buttons
   socket.on('connect', () => {
+    var messages = [];
+    var channel = '';
+
     socket.emit('connected');
 
     socket.on('connection', (params) => {
       localStorage.setItem('user_id', params[0]);
-      const messages = params[1];
-      const ul = document.getElementById('messages');
+      messages = params[1];
+      const ul = document.getElementById('channels');
       ul.innerHTML = '';
-      messages.forEach((element) => {
+      Object.keys(messages).forEach((channel) => {
+        const li = document.createElement('li');
+        li.innerHTML =
+          '<button class="cname" data-channel="' +
+          channel +
+          '">' +
+          channel +
+          '</button>';
+        ul.appendChild(li);
+      });
+      if (localStorage.getItem('channel') === null) {
+        localStorage.setItem('channel', Object.keys(messages)[0]);
+      }
+      channel = localStorage.getItem('channel');
+      const ulm = document.getElementById('messages');
+      ulm.innerHTML = '';
+      messages[channel].forEach((element) => {
         const li = document.createElement('li');
         if (element['user_id'] === localStorage.getItem('user_id')) {
           li.setAttribute('class', 'my-message');
@@ -24,8 +43,32 @@ document.addEventListener('DOMContentLoaded', () => {
           element['username'] +
           '---' +
           element['time'];
-        ul.appendChild(li);
+        ulm.appendChild(li);
       });
+    });
+
+    const buttons = Array.from(document.getElementsByClassName('cname'));
+    console.log(' o ', buttons);
+    Array.from(buttons).forEach((cbutton) => {
+      cbutton.onclick = () => {
+        channel = cbutton.dataset.channel;
+        alert(channel);
+        const ul = document.getElementById('messages');
+        ul.innerHTML = '';
+        messages[channel].forEach((element) => {
+          const li = document.createElement('li');
+          if (element['user_id'] === localStorage.getItem('user_id')) {
+            li.setAttribute('class', 'my-message');
+          }
+          li.innerHTML =
+            element['msg'] +
+            '---' +
+            element['username'] +
+            '---' +
+            element['time'];
+          ul.appendChild(li);
+        });
+      };
     });
 
     document.getElementById('send').onclick = () => {

@@ -14,7 +14,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-messages = []
+messages = {"default": [{'msg': "message", "time": "11:48", "username": "Muktesh", "user_id": "user_id"}], "default1": [{'msg': "message1", "time": "11:48", "username": "Muktesh", "user_id": "user_id"}]}
 users = []
 
 @app.route("/username", methods=["GET", "POST"])
@@ -54,8 +54,12 @@ def connection():
 @socketio.on("msg sent")
 def messenger(msg):
     message = {'msg': msg["message"], "time": msg["time"], "username": session["username"], "user_id": session["user_id"]}
-    messages.append(message)
+    messages[channel].append(message)
     emit("msg", message, broadcast=True)
+
+@socketio.on("new channel")
+def channeler(name):
+    return
 
 if __name__ == '__main__':
     socketio.run(app)
