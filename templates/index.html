@@ -1,34 +1,126 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
     <script
       type="text/javascript"
       src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
     ></script>
+    <script
+      src="https://kit.fontawesome.com/ef0c362085.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
     <script src="../static/index.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
     <link rel="Stylesheet" href="../static/style.css" />
     <title>Flack</title>
   </head>
   <body>
-    <nav>
-      <a href="/logout">Log Out</a>
-    </nav>
-    <div id="channel-list" style="width: 20%; float: left;">
-      <input id="new" type="text" size="10" />
-      <button id="create">+</button>
-      <p style="color: red; display: none;" id="channel-error">
-        Channel Already exists
-      </p>
-      <ul id="channels"></ul>
+    <div class="menu">
+      <ul class="menu-options">
+        <li id="delete" class="menu-option">
+          <i class="fa fa-trash-alt"></i> Delete
+        </li>
+      </ul>
     </div>
-    <div
-      id="view"
-      style="width: 80%; height: 100%; position: relative; float: left;"
-    >
-      <ul id="messages"></ul>
-      <div id="input" style="position: absolute; bottom: 0;">
-        <input id="msg" type="text" />
-        <button id="send">Send</button>
+    <div id="container">
+      <nav
+        class="navbar navbar-expand-sm navbar-light fixed-top"
+        style="background-color: #66a1ee;"
+      >
+        <div class="container-fluid">
+          <div id="show-sidebar-button" class="cursor-pointer">
+            <span id="username">Hello, </span>
+          </div>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a id="logout-btn" class="nav-link" href="/logout"
+                  ><span style="color: #335177;">Logout</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div id="main">
+        <div id="channel-list">
+          <div id="creation" class="input-group mb-3">
+            <input
+              type="text"
+              id="new"
+              class="form-control"
+              placeholder="New Channel"
+              aria-label="New Channel"
+              aria-describedby="basic-addon2"
+              autocomplete="off"
+            />
+            <div class="input-group-append">
+              <button id="create" class="btn btn-primary">
+                <i class="fas fa-plus-circle"></i>
+              </button>
+            </div>
+          </div>
+          <div id="channel-error">Channel Already exists</div>
+          <ul id="channels"></ul>
+        </div>
+        <div id="view">
+          <div id="msgs">
+            <ul id="messages"></ul>
+            <a href="#!" type="text" style="color: white;" id="focuser"></a>
+          </div>
+          <div id="input" class="input-group mb-3">
+            <input
+              type="text"
+              id="msg"
+              class="form-control"
+              placeholder="Type a message..."
+              aria-label="Type a message"
+              aria-describedby="basic-addon2"
+              autocomplete="off"
+            />
+            <div class="input-group-append">
+              <button id="send" class="btn btn-primary" type="button">
+                SEND <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

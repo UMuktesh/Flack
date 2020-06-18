@@ -1,7 +1,206 @@
 li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
-.my-message {
-    text-align: right;
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+  display: flex;
+}
+
+#container nav {
+  border-bottom: 1px solid #1d72e0;
+}
+
+#container nav a {
+  font-weight: bold;
+  margin: auto;
+  border-radius: 3px;
+}
+
+#container nav a:hover {
+  background-color: white;
+  color: #66a1ee;
+}
+
+#container nav span {
+  font-weight: bold;
+}
+
+#container #main {
+  width: 100%;
+  overflow: hidden;
+}
+
+#container #main #channel-list {
+  position: relative;
+  margin-top: 4em;
+  min-height: 100vh;
+  padding-top: 0;
+  border-right: 0.5px solid #898c91;
+  float: left;
+  min-height: 90vh;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#container #main #channel-list #creation {
+  padding: 0.5em;
+}
+
+#container #main #channel-list #creation #new {
+  border-radius: 5px;
+  padding: 0.2em;
+}
+
+#channel-error {
+  padding: 0;
+  margin: 0;
+  color: red;
+  display: none;
+  text-align: center;
+}
+
+#container #main #channel-list #channels {
+  padding: 0.2em;
+}
+
+#container #main #channel-list #channels button {
+  width: 100%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: 2px solid #1d72e0;
+  margin-bottom: 0.2em;
+  background-color: white;
+  border-radius: 5px;
+  color: #66a1ee;
+}
+
+#container #main #channel-list #channels button:hover {
+  font-weight: bold;
+  background-color: #66a1ee;
+  color: white;
+}
+
+#container #main #channel-list #channels button.cname.active {
+  font-weight: bold;
+  background-color: #66a1ee;
+  color: white;
+}
+
+#container #main #view {
+  position: relative;
+  margin-top: 4em;
+  overflow: hidden;
+}
+
+#container #main #view #msgs {
+  padding-top: 0.5em;
+  padding-right: 0.2em;
+  padding-bottom: 0.5em;
+  min-height: 82vh;
+  max-height: 82vh;
+  overflow-y: auto;
+}
+
+#container #main #view #msgs #messages {
+  margin: 0;
+  padding: 0;
+}
+
+#container #main #view #msgs #messages p {
+  margin-right: 7em;
+  margin-left: 0.2em;
+  padding: 0.5em 0.5em 0.5em 1em;
+  border-radius: 5px;
+  border-color: grey;
+  border-width: 0.5px;
+  border-style: solid;
+  background-color: #c2dbfb;
+  overflow-wrap: break-word;
+}
+
+#container #main #view #msgs #messages p.system {
+  border-radius: none;
+  border-color: none;
+  border-width: none;
+  border-style: none;
+  background-color: white;
+  margin-right: 7em;
+  margin-left: 0em;
+  padding: 0.5em 0.5em 0.5em 1em;
+  color: #656d78;
+  font-size: 0.9em;
+}
+
+#container #main #view #msgs #messages p span.username {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #206ed2;
+}
+
+#container #main #view #msgs #messages p span.my-username {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ff6b13;
+}
+
+#container #main #view #msgs #messages p span.timestamp {
+  color: #656d78;
+  font-size: 0.7em;
+}
+
+#container #main #view #msgs #messages p.my-message {
+  margin-left: 7em;
+  margin-right: 0.2em;
+  padding: 0.5em 0.5em 0.5em 1em;
+  border-radius: 5px;
+  border-color: #206ed2;
+  border-width: 1px;
+  border-style: solid;
+}
+
+#container #main #view #input {
+  background-color: white;
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+  bottom: 0;
+}
+
+.menu {
+  padding: 0;
+  margin: 0;
+  width: 120px;
+  background-color: white;
+  box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  display: none;
+  z-index: 1;
+}
+
+.menu .menu-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu .menu-options .menu-option {
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px 40px 10px 20px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.menu .menu-options .menu-option:hover {
+  background: #ccc;
 }

@@ -2,17 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
     <title>Flask Username</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../static/style.css" />
+    <style>
+      body {
+        height: 100%;
+        margin-top: 250px;
+      }
+    </style>
     <script>
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('channel');
+        if ( {{ logout }} == 0 ) {
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('channel');
+      }
+      var out = true
+      document.addEventListener('DOMContentLoaded', function(){
+        document.getElementById('form').addEventListener('submit', (e) => {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              res = JSON.parse(this.responseText)
+              if (!res["ok"]) {
+                e.preventDefault();
+                document.getElementById('channel-error').innerHTML = "Username in use";
+                document.getElementById('channel-error').style.display = "block";
+                setTimeout(() => {document.getElementById('channel-error').style.display = "none";}, 3000)
+                return false;
+              }
+            }
+          };
+          xhttp.open("POST", "/verify", false);
+          xhttp.setRequestHeader("Content-type", "application/json");
+          username = document.getElementById('username').value
+          reqData = {username: username}
+          xhttp.send(JSON.stringify(reqData))
+        })
+      })
     </script>
   </head>
   <body>
-    <form action="/username" method="POST">
-      <input type="text" name="username" placeholder="Username" />
-      <input type="submit" value="Start" />
-    </form>
+    <h1 style="text-align: center;">Start Flack</h1>
+    <div
+      class="d-flex mt-auto justify-content-center flex-wrap align-items-center"
+    >
+      <form id="form" action="/username" method="POST" class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+          <input
+            id="username"
+            autocomplete="off"
+            class="form-control"
+            name="username"
+            placeholder="Username"
+            required
+          />
+        </div>
+        <input type="submit" class="btn btn-primary mb-2" value="Start" />
+      </form>
+    </div>
+    <div id="channel-error"></div>
   </body>
 </html>
