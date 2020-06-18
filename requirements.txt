@@ -3,5 +3,4 @@ Flask-SocketIO
 uuid
 datetime
 flask_session
-json
 gunicorn
