@@ -31,10 +31,10 @@ messages = {"Welcome": [
     {"username": "WelcomeBot", "msg": "You can see here if new users have logged in", "time": datetime.now().strftime(formatTime)},
     {"username": "WelcomeBot", "msg": "You will be notified of entry and exit of users in your current channel", "time": datetime.now().strftime(formatTime)},
     {"username": "WelcomeBot", "msg": "Happy Chatting....", "time": datetime.now().strftime(formatTime)},
-]}
-mIndex = {"Welcome": 0}
+], "Hello": []}
+mIndex = {"Welcome": 0, "Hello": 0}
 users = [("WelcomeBot", "1")]
-deleted = '<i style="color: #888"><i class="fas fa-ban"></i> This message was deleted</i>';
+deleted = '<i style="color: #888"><i class="fas fa-ban"></i> This message was deleted</i>'
 
 @app.route("/verify", methods=["POST"])
 def validator():

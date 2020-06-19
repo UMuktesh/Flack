@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('connection', (params) => {
       localStorage.setItem('user_id', params[0]);
       const username = params[2];
-      document.getElementById('username').innerHTML = `Hello, ${username}.`;
+      document.getElementById('username').innerText = `Hello, ${username}.`;
       messages = params[1];
       ulc.innerHTML = '';
       Object.keys(messages).forEach((channel) => {
@@ -51,23 +51,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const buttons = Array.from(document.getElementsByClassName('cname'));
       buttons.forEach((cbutton) => {
         cbutton.onclick = () => {
-          socket.emit('leaving', channel);
-          document
-            .querySelectorAll(`[data-channel="${channel}"]`)[0]
-            .classList.remove('active');
-          channel = cbutton.dataset.channel;
-          socket.emit('joining', channel);
-          document.getElementById('msg').disabled = true;
-          document.getElementById('focuser').disabled = true;
-          if (channel !== 'Welcome') {
-            document.getElementById('msg').disabled = false;
-            document.getElementById('focuser').disabled = false;
+          if (cbutton.dataset.channel === channel) {
+          } else {
+            socket.emit('leaving', channel);
+            document
+              .querySelectorAll(`[data-channel="${channel}"]`)[0]
+              .classList.remove('active');
+            channel = cbutton.dataset.channel;
+            socket.emit('joining', channel);
+            document.getElementById('msg').disabled = true;
+            document.getElementById('focuser').disabled = true;
+            if (channel !== 'Welcome') {
+              document.getElementById('msg').disabled = false;
+              document.getElementById('focuser').disabled = false;
+            }
+            document
+              .querySelectorAll(`[data-channel="${channel}"]`)[0]
+              .classList.add('active');
+            localStorage.setItem('channel', channel);
+            messageDisplayerAll();
           }
-          document
-            .querySelectorAll(`[data-channel="${channel}"]`)[0]
-            .classList.add('active');
-          localStorage.setItem('channel', channel);
-          messageDisplayerAll();
         };
       });
     }
@@ -78,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = document.createElement('p');
         if (channel === 'Welcome' && element['class'] === 'system') {
           p.setAttribute('class', 'system');
-          p.innerHTML = element['msg'];
+          p.innerText = element['msg'];
           ul.appendChild(p);
         } else {
           p.setAttribute('data-index', element['index']);
@@ -111,9 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     socket.on('new user', (name) => {
-      messages['Welcome'].push({ msg: `${name} is here!!!!`, class: 'system' });
       if (channel === 'Welcome') {
-        messageDisplayerAll();
+        const p = document.createElement('p');
+        p.setAttribute('class', 'system');
+        p.innerText = `${name} is here!!!!`;
+        ul.appendChild(p);
+        setTimeout(() => {
+          ul.removeChild(p);
+        }, 3000);
       }
     });
 
@@ -121,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (channel === params[1] && channel !== 'Welcome') {
         const p = document.createElement('p');
         p.setAttribute('class', 'system');
-        p.innerHTML = `${params[0]} left this channel`;
+        p.innerText = `${params[0]} left this channel`;
         ul.appendChild(p);
         setTimeout(() => {
           ul.removeChild(p);
@@ -133,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (channel === params[1] && channel !== 'Welcome') {
         const p = document.createElement('p');
         p.setAttribute('class', 'system');
-        p.innerHTML = `${params[0]} joined this channel`;
+        p.innerText = `${params[0]} joined this channel`;
         ul.appendChild(p);
         setTimeout(() => {
           ul.removeChild(p);
