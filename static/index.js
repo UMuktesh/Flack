@@ -117,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = document.createElement('p');
         p.setAttribute('class', 'system');
         p.innerText = `${name} is here!!!!`;
+        document.getElementById('focuser').focus();
+        document.getElementById('msg').focus();
         ul.appendChild(p);
         setTimeout(() => {
           ul.removeChild(p);
@@ -129,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = document.createElement('p');
         p.setAttribute('class', 'system');
         p.innerText = `${params[0]} left this channel`;
+        document.getElementById('focuser').focus();
+        document.getElementById('msg').focus();
         ul.appendChild(p);
         setTimeout(() => {
           ul.removeChild(p);
@@ -141,6 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = document.createElement('p');
         p.setAttribute('class', 'system');
         p.innerText = `${params[0]} joined this channel`;
+        document.getElementById('focuser').focus();
+        document.getElementById('msg').focus();
         ul.appendChild(p);
         setTimeout(() => {
           ul.removeChild(p);
