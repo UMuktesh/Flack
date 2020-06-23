@@ -4,4 +4,4 @@ uuid
 datetime
 flask_session
 gunicorn
-Flask_cors
+flask_cors
