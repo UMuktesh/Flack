@@ -5,3 +5,8 @@ datetime
 flask_session
 gunicorn
 flask_cors
+gevent==1.4.0
+gevent-websocket==0.10.1
+greenlet==0.4.15
+six==1.12.0
+Werkzeug==0.14.1
