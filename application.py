@@ -3,6 +3,7 @@ import os
 from flask import Flask, session, request, redirect, render_template, jsonify
 from flask_session import Session
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 from datetime import datetime
 from decor import login_required
 import uuid
@@ -11,6 +12,7 @@ import json
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
+CORS(app)
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
