@@ -1,6 +1,4 @@
-# Project 2
-
-CS50: Web Programming with Python and JavaScript
+# Flack
 
 _This repository is the source code for Flack chat web application_
 
@@ -30,8 +28,6 @@ Messages can be sent using the send box at the bottom of the messages section
 100 most recent messages will only be remembered and shown
 If users accidentally close the Flack tab without logging out, their session and the channel on which they were will be still remembered
 users can log out by selecting Logout on the top right side
-
-## Personal Touch
 
 Messages sent by users can be deleted if necessary by right clicking on their own message and selecting delete from the context menu
 Users can see new users who have logged in in the Welcome channel
